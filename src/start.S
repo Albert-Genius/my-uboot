@@ -37,8 +37,19 @@ _start:
 	bne 0b
 
 @ 4.relocate
+#define SDRAM_START 0x30000000
+#define SDRAM_END   0x34000000
+	ldr sp, =SDRAM_END	@set stack pointer
+	bl copy2sdram
+
 
 @ 5.jump to main
+	ldr lr, =halt
+	ldr pc, =main
+halt:
+	b halt
+
+
 
 .algin 4
 sdram_config:
