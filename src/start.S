@@ -40,8 +40,13 @@ _start:
 #define SDRAM_START 0x30000000
 #define SDRAM_END   0x34000000
 	ldr sp, =SDRAM_END	@set stack pointer
+	bl nand_init		@init nand controler
+	mov r0, #0x0
+	ldr r1, =_start
+	ldr r2, =__bss_start
+	sub r2, r2, r1	
 	bl copy2sdram
-
+	bl clean_bss
 
 @ 5.jump to main
 	ldr lr, =halt
