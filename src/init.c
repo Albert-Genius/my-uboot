@@ -1,20 +1,33 @@
-/******************************************************************
- * init.c
- * device initial
- * by zhaoyuandong at 2020/4/14
- ******************************************************************/
-void nand_init(void)
-{
-	//wait to code
-}
+/****************************************************************** 
+ * init.c 
+ * device initial 
+ * by zhaoyuandong at 2020/4/14 
+ ******************************************************************/ 
+#define NFCONF (*((volatile unsigned long*)0x4E000000)
+#define NFCONT (*((volatile unsigned long*)0x4E000004)
+#define NFCMMD (*((volatile unsigned long*)0x4E000008)
+#define NFADDR (*((volatile unsigned long*)0x4E00000C)
+#define NFDATA (*((volatile unsigned long*)0x4E000010)
+#define NFSTAT (*((volatile unsigned long*)0x4E000020)
 
-void nand_read(unsigned char *addr, unsigned char *buff, unsigned int len)
-{
-	//wait to code
-}
+#define TACLS	0
+#define TWRPH0	2
+#define TWRPH1	0
 
-int is_boot_from_nor_flash(void)
-{
+void nand_init(void) {
+	/* set clk sequence */
+	NFCONF = TACLS<<12  | TWRPH0<<8 | TWRPH1<<4 | 0<<0;
+	/* init ecc, disable chip select, enable nandflash */
+	NFCONT = 0x1<<4 | 0x1<<1 | 0x1<<0; 
+} 
+
+void nand_read(unsigned char *addr, unsigned char *buff, unsigned int len) 
+{ 
+	//wait to code 
+} 
+
+int is_boot_from_nor_flash(void) 
+{ 
 	volatile int *p = (volatile int *)0x0;
 	int valueStore = 0;
 
