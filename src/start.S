@@ -18,6 +18,12 @@ _start:
 	ldr r0, =CLKDIVN
 	mov r1, #0x3
 	str r1, [r0]
+
+	@ set asynchronous bus mode
+	mrc p15, 0, r1, c1, c0, 0
+	orr r1, r1, #0xC0000000
+	mcr p15, 0, r1, c1, c0, 0
+	
 #define MPLLCON 0x4C000004
 #define MPLL_200MHZ (0x5c<<12 | 0x1<<4 | 0x2)
 	@ set MPLL to 200MHZ (Fin=12MHz)
