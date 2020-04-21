@@ -71,18 +71,33 @@ void main(void)
 {
 	void (*theKernel)(int, int, unsigned int);
 
+	/* 0.initialize uart */
+	uart_init();
+
 	/* 1.copy kernel image from nandflash to sdram */
+	puts("Read kernel image ... \r\n");
 	nand_read((unsigned char *)0x200000+64, (unsigned char *)PARTITION_SDRAM_KERNEL_START, 0x300000);
+	puts("Read kernel image done. \r\n");
 
 	/* 2.set boot kernel parameters */
+	puts("Set boot kernel parameters... \r\n");
 	setup_start_tag();
 	setup_memory_tags();
 	setup_commandline_tag("noinitrd root=/dev/mtdblock2 init=/linuxrc console=ttySAC0");
 	setup_end_tag();
+	puts("Set boot kernel parameters done. \r\n");
 
 	/* 3.jump to run kernel */	
+	puts("Run kernel ... \r\n");
 	theKernel = (void (*)(int, int, unsigned int))PARTITION_SDRAM_KERNEL_START;
+	/* mov r0, #0
+	   ldr r1, =MARCH_TYPE_S3C2440
+	   ldr r2, =PARTITION_SDRAM_PARAMS_START
+	   ldr pc, =PARTITION_SDRAM_KERNEL_START
+	*/
 	theKernel(0, MARCH_TYPE_S3C2440, PARTITION_SDRAM_PARAMS_START);
 
 	/* never come back */
+	puts("Run kernel failed! \r\n");
 }
+
