@@ -1,7 +1,11 @@
 
 SECTION {
 	. = 0x33F80000;
-	.test : {*(.test)}
+	.test : 
+	{
+		start.o		(.test)
+		*(.test)
+	}
 
 	. = ALIGN(4);
 	.rodata : {*(.rodata)}
