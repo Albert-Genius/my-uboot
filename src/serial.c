@@ -36,9 +36,38 @@ void putc(unsigned char c)
 
 void puts(unsigned char *str)
 {
+	putc('[');
+	putc('A');
+	putc('l');
+	putc('b');
+	putc('e');
+	putc('r');
+	putc('t');
+	putc(']');
+	putc(' ');
 	while (*str)
 		putc(*str++);
 }
+
+void puthex(unsigned int data)
+{
+	int i = 0;
+	int slice = 0;
+	
+	puts("0x");
+	for (i = 0; i < 8; i++) {
+		slice = data >> ((7-i)*4) & 0xf;
+
+		if (slice >= 10) {
+			putc('A'+slice-10);	
+		} else {
+			putc('0'+slice);
+		}
+	}
+}
+
+
+
 
 
 

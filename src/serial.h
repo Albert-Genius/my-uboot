@@ -7,6 +7,8 @@
 #define __SERIAL_H__
 
 extern void uart_init(void);
+extern void putc(unsigned char);
 extern void puts(unsigned char *str);
+extern void puthex(unsigned int data);
 
 #endif /*__SERIAL_H__*/

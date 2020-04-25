@@ -3,6 +3,8 @@
  * device initial 
  * by zhaoyuandong at 2020/4/14 
  ******************************************************************/ 
+#include "serial.h"
+
 #define NFCONF (*((volatile unsigned long*)0x4E000000))
 #define NFCONT (*((volatile unsigned long*)0x4E000004))
 #define NFCMMD (*((volatile unsigned char*)0x4E000008))
@@ -75,21 +77,23 @@ void nand_wait_ready(void)
 	while (!(NFSTAT & 0x1));
 }
 
-void nand_read(unsigned char *addr, unsigned char *buff, unsigned int len) 
+void nand_read(unsigned int addr, unsigned char *buff, unsigned int len) 
 { 
 	unsigned int i = 0; /*control one dimensional cycle*/
-	unsigned int colCurrent = *addr % NAND_FLASH_PAGE_SIZE; /*calculate column start address of the fist page*/
+	unsigned int colCurrent = addr % NAND_FLASH_PAGE_SIZE; /*calculate column start address of the fist page*/
+	//puts("---------debug-----------\r\n");
+	//puthex(colCurrent);putc('\r');putc('\n');
 
 	/* 1.enable chip select */
 	nand_chip_select();
 
-	for (i=0; i<len; i++){
+	for (i=0; i<len; /*i++*/){
 	/* read ONE PAGE by Step2-6 */
 		/* 2.send 0x00 command code */
 		nand_send_command(0x00);
 
 		/* 3.send 5 cycle address */
-		nand_send_address(*addr++);
+		nand_send_address(addr);
 
 		/* 4.send 0x30 command code */
 		nand_send_command(0x30);
@@ -100,6 +104,14 @@ void nand_read(unsigned char *addr, unsigned char *buff, unsigned int len)
 		/* 6.read the all the output data of ONE PAGE */
 		for (; colCurrent < NAND_FLASH_PAGE_SIZE; colCurrent++){
 			buff[i++] = nand_data();
+			addr++;
+#if 0
+			if (0 == colCurrent) {
+			 
+				puthex(addr-1);putc('-');puthex(buff[i-1]);
+				putc('\r');putc('\n');
+			}
+#endif
 		}
 		
 		colCurrent = 0; /*reset the colCurrent*/
@@ -138,7 +150,7 @@ void copy2sdram(unsigned char *src, unsigned char *dest, unsigned int len)
 	}
 	else{	
 	/* 2.boot from nand flash */
-		nand_read(src, dest, len);
+		nand_read((unsigned int)src, dest, len);
 	}
 }
 
