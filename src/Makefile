@@ -5,7 +5,7 @@ OBJCOPY = arm-linux-objcopy
 OBJDUMP = arm-linux-objdump
 
 CFLAGS := -Wall -O2
-CPPFLAGS := -nostdinc
+CPPFLAGS := -nostdinc -fno-builtin
 
 objs = start.o init.o uboot.o serial.o
 
@@ -16,9 +16,9 @@ uboot.bin: $(objs)
 	$(OBJDUMP) -D -m arm uboot.elf > uboot.dis
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $< $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 %.o: %.S
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $< $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 clean:
 	rm -f *.o *.elf *.dis *.bin

@@ -1,10 +1,10 @@
 
-SECTION {
+SECTIONS {
 	. = 0x33F80000;
-	.test : 
+	.text : 
 	{
-		start.o		(.test)
-		*(.test)
+		start.o		(.text)
+		*(.text)
 	}
 
 	. = ALIGN(4);

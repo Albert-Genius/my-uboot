@@ -4,6 +4,8 @@
  * by zhaoyuandong at 2020/4/20
  ******************************************************************/
 #include "setup.h"
+#include "serial.h"
+#include "init.h"
 
 #define MARCH_TYPE_S3C2440 362
 #define PARTITION_SDRAM_PARAMS_START 0x30000100
@@ -31,8 +33,8 @@ void setup_memory_tags(void)
 	params->hdr.tag = ATAG_MEM;
 	params->hdr.size = tag_size(tag_mem32);
 
-	params->u.memory.start = 0x30000000;
-	params->u.memory.size = 0x4000000; /*64M*/
+	params->u.mem.start = 0x30000000;
+	params->u.mem.size = 0x4000000; /*64M*/
 
 	params = tag_next(params);
 }	
@@ -48,7 +50,7 @@ unsigned int strlen(unsigned char *str)
 
 void strcpy(unsigned char *dest, unsigned char *src)
 {
-	while (*dest++ = *src++);
+	while ('\0' != (*dest++ = *src++));
 }
 
 void setup_commandline_tag(unsigned char *cmdline)
@@ -64,10 +66,10 @@ void setup_commandline_tag(unsigned char *cmdline)
 void setup_end_tag(void)
 {
 	params->hdr.tag = ATAG_NONE;
-	params->hdr.size = 0;{	
+	params->hdr.size = 0;
 }
 
-void main(void)
+int main(void)
 {
 	void (*theKernel)(int, int, unsigned int);
 
@@ -99,5 +101,8 @@ void main(void)
 
 	/* never come back */
 	puts("Run kernel failed! \r\n");
+	
+	return -1;
 }
 
+/* the end of file */

@@ -62,7 +62,7 @@ halt:
 
 
 
-.algin 4
+.align 4
 sdram_config:
     .long   0x22011110      @ BWSCON
     .long   0x00000700      @ BANKCON0

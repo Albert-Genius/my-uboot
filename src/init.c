@@ -3,12 +3,12 @@
  * device initial 
  * by zhaoyuandong at 2020/4/14 
  ******************************************************************/ 
-#define NFCONF (*((volatile unsigned long*)0x4E000000)
-#define NFCONT (*((volatile unsigned long*)0x4E000004)
-#define NFCMMD (*((volatile unsigned char*)0x4E000008)
-#define NFADDR (*((volatile unsigned char*)0x4E00000C)
-#define NFDATA (*((volatile unsigned char*)0x4E000010)
-#define NFSTAT (*((volatile unsigned char*)0x4E000020)
+#define NFCONF (*((volatile unsigned long*)0x4E000000))
+#define NFCONT (*((volatile unsigned long*)0x4E000004))
+#define NFCMMD (*((volatile unsigned char*)0x4E000008))
+#define NFADDR (*((volatile unsigned char*)0x4E00000C))
+#define NFDATA (*((volatile unsigned char*)0x4E000010))
+#define NFSTAT (*((volatile unsigned char*)0x4E000020))
 
 /* nand flash parameters */
 #define NAND_FLASH_PAGE_SIZE 2048
