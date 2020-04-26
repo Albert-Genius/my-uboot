@@ -7,7 +7,7 @@
 #include "serial.h"
 #include "init.h"
 
-#define MARCH_TYPE_S3C2440 362
+#define MARCH_TYPE_S3C2440 168	//note:the kernel's number is 168(defined by TQ2440), but the right number is 362(defined by uboot organization)
 #define PARTITION_SDRAM_PARAMS_START 0x30000100
 #define PARTITION_SDRAM_KERNEL_START 0x30008000
 
