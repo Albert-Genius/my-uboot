@@ -36,14 +36,13 @@ void putc(unsigned char c)
 
 void puts(unsigned char *str)
 {
-	putc('[');
 	putc('A');
 	putc('l');
 	putc('b');
 	putc('e');
 	putc('r');
 	putc('t');
-	putc(']');
+	putc('>');
 	putc(' ');
 	while (*str)
 		putc(*str++);

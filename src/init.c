@@ -27,34 +27,34 @@ void nand_init(void) {
 
 void nand_send_command(unsigned char command)
 {
-	volatile int i = 0;
+	//volatile int i = 0;
 
 	NFCMMD = command;
-	for (i=0; i<10; i++); /*wait for a while after send a command*/
+	//for (i=0; i<10; i++); /*wait for a while after send a command*/
 }
 
 void nand_send_address(unsigned int address)
 {
 	unsigned int page = address / NAND_FLASH_PAGE_SIZE;
 	unsigned int column = address % NAND_FLASH_PAGE_SIZE;
-	volatile int i = 0;
+	//volatile int i = 0;
 
 	/* 1.column 1st address */
 	NFADDR = (unsigned char)column;
-	for (i=0; i<10; i++); /*wait for a while after send a address*/
+	//for (i=0; i<10; i++); /*wait for a while after send a address*/
 	/* 2.column 2st address */
 	NFADDR = (unsigned char)(column >> 8) & 0x0f;
-	for (i=0; i<10; i++); 
+	//for (i=0; i<10; i++); 
 
 	/* 3.row 1st address */
 	NFADDR = (unsigned char)page;
-	for (i=0; i<10; i++);
+	//for (i=0; i<10; i++);
 	/* 4.row 2st address */
 	NFADDR = (unsigned char)(page >> 8);
-	for (i=0; i<10; i++);
+	//for (i=0; i<10; i++);
 	/* 5.row 3st address */
 	NFADDR = (unsigned char)(page >> 16);
-	for (i=0; i<10; i++);
+	//for (i=0; i<10; i++);
 }
 
 unsigned char nand_data(void)

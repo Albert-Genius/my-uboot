@@ -71,21 +71,22 @@ void setup_end_tag(void)
 
 int main(void)
 {
-	int i = 0;
+	//int i = 0;
 	void (*theKernel)(int, int, unsigned int);
-	volatile int *pDebug = (volatile int *)PARTITION_SDRAM_KERNEL_START;
-	volatile unsigned int *pNandData = (volatile unsigned int *)0x200000;
+	//volatile int *pDebug = (volatile int *)PARTITION_SDRAM_KERNEL_START;
 
 	/* 0.initialize uart */
 	uart_init();
 
 	/* 1.copy kernel image from nandflash to sdram */
+	putc('\r');putc('\n');
 	puts("Read kernel image ... \r\n");
 	nand_read((unsigned char *)0x200000, (unsigned char *)PARTITION_SDRAM_KERNEL_START, 0x300000);
 	puts("Read kernel image done. \r\n");
+#if 0
 	puthex(0x1234ABCD);
 	putc('\r');putc('\n');
-#if 0
+
 	pDebug += 2*2048/4;
 	pNandData += 2*2048/4;
 	for (i=0; i<64; i++) {

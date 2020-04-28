@@ -1,2 +1,6 @@
 *.swp
 tags
+*.o
+*.dis
+*.bin
+*.elf
