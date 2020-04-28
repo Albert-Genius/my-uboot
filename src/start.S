@@ -14,9 +14,9 @@ _start:
 
 @ 2.set clock
 #define CLKDIVN 0x4C000014
-	@ set clk divisor FCLK:HCLK:PCLK=1:2:4
+	@ set clk divisor FCLK:HCLK:PCLK=1:4:8
 	ldr r0, =CLKDIVN
-	mov r1, #0x3
+	mov r1, #0x5
 	str r1, [r0]
 
 	@ set asynchronous bus mode
@@ -25,11 +25,16 @@ _start:
 	@mcr p15, 0, r1, c1, c0, 0
 	
 #define MPLLCON 0x4C000004
-#define MPLL_200MHZ (0x5c<<12 | 0x1<<4 | 0x2)
+#define MPLL_400MHZ (0x5c<<12 | 0x1<<4 | 0x1)
 	@ set MPLL to 200MHZ (Fin=12MHz)
 	ldr r0, =MPLLCON
-	ldr r1, =MPLL_200MHZ
+	ldr r1, =MPLL_400MHZ
 	str r1, [r0]
+	
+	@ enable icashe to speed up the process
+	mrc p15, 0, r0, c1, c0, 0
+	orr r0, r0, #(1<<12)
+	mcr p15, 0, r0, c1, c0, 0
 
 @ 3.init SDRAM
 #define BWSCON 0x48000000
